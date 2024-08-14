@@ -1,0 +1,19 @@
+{
+	"geode": "3.4.0",
+	"gd": {
+		"win": "2.206",
+		"android": "2.206",
+		"mac": "2.206",
+		"ios": "2.206"
+	},
+	"id": "alphalaneous.object_summary",
+	"name": "Object Summary",
+	"version": "v1.0.0",
+	"developer": "Alphalaneous",
+	"links": {
+        "homepage": "https://twitter.com/alphalaneous",
+        "source": "https://github.com/Alphalaneous/Object-Summary",
+        "community": "https://discord.gg/Txn2CA5dHF"
+    },
+	"description": "Shows how many of each object you used in a level"
+}

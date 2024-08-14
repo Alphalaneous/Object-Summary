@@ -12,5 +12,5 @@ protected:
     std::map<int, int> m_objectCounts;
 public:
     static ObjectPopup* create(std::map<int, int> objectCounts);
-    void onClose(cocos2d::CCObject*);
+    void onClose(cocos2d::CCObject*) override;
 };

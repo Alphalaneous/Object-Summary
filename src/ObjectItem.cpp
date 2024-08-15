@@ -53,12 +53,23 @@ CCNode* ObjectItem::createNode(GameObject* object, int count){
         scale = 0.75;
     }
 
-    object->setScale(scale * 0.75f);
-    
+    if(object->m_objectID == 914){
+        CCLabelBMFont* textLabel = CCLabelBMFont::create("A", "bigFont.fnt");
+        textLabel->setPosition({contentSize.height/2, contentSize.height/2});
+        textLabel->setScale(0.75f);
+        objectContainer->addChild(textLabel);
+    }
 
+    object->setScale(scale * 0.75f);
     object->addColorSprite(frame);
     object->setupCustomSprites(frame);
     objectContainer->addChild(object);
+
+    if(object->m_objectID == 1049){
+        if(CCSprite* spr = getChildOfType<CCSprite>(object, 0)) {
+            spr->setColor({255, 63, 63});
+        }
+    }
 
     object->setPosition({contentSize.height/2, contentSize.height/2});
 

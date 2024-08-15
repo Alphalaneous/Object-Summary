@@ -1,3 +1,3 @@
 # Object Summary
 
-Go into the level settings and click the default icon button to view an object summary.
+Go into the <cy>level settings</c> within the **<cb>Level Editor</c>** and click the <cg>default icon button</c> to view an object summary.

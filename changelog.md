@@ -1,3 +1,6 @@
+# 1.1.2
+- Update mod description
+
 # 1.1.1
 - Add decorations tab
 - Add toggle to count hidden objects or not

@@ -91,6 +91,7 @@ bool ObjectList::init(std::map<int, int> objects, SortOptions sortOptions, CCSiz
     for (auto const & [k, v] : pairs){
 
         //objectsStr += fmt::format("{}, ", k);
+        if(k == 749) continue; //orange part of teleport
 
         if(sortOptions.isPortals && std::find(portalObjects.begin(), portalObjects.end(), k) == portalObjects.end()) continue;
         if(sortOptions.isPadsOrbs && std::find(padOrbObjects.begin(), padOrbObjects.end(), k) == padOrbObjects.end()) continue;

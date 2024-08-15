@@ -34,13 +34,6 @@ class $modify(MyLevelSettingsLayer, LevelSettingsLayer) {
 	}
 
 	void showObjectSummary(CCObject* sender) {
-
-		std::map<int, int> objectCounts;
-
-		for(GameObject* obj : CCArrayExt<GameObject*>(m_editorLayer->m_objects)){
-			objectCounts[obj->m_objectID]++;
-		}
-
-		ObjectPopup::create(objectCounts)->show();
+		ObjectPopup::create(m_editorLayer)->show();
 	}
 };

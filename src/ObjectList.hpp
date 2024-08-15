@@ -11,7 +11,8 @@ struct SortOptions {
     bool isPadsOrbs = false;
     bool isSolids = false;
     bool isHazards = false;
-
+    bool isDecoration = false;
+    bool showHidden = true;
 };
 
 class ObjectList : public CCNode {

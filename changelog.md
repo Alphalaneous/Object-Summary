@@ -1,3 +1,6 @@
+# 1.1.3
+- Fix a bug where it shows (and crashes) when in a start position
+
 # 1.1.2
 - Update mod description
 

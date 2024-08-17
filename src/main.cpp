@@ -8,6 +8,8 @@ class $modify(MyLevelSettingsLayer, LevelSettingsLayer) {
 	bool init(LevelSettingsObject* p0, LevelEditorLayer* p1) {
 		if (!LevelSettingsLayer::init(p0, p1)) return false;
 
+		if(p0->m_startsWithStartPos) return true;
+
 		CCMenu* newMenu = CCMenu::create();
 		newMenu->setID("object-summary-menu"_spr);
 		newMenu->ignoreAnchorPointForPosition(false);

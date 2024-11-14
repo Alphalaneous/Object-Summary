@@ -66,7 +66,7 @@ CCNode* ObjectItem::createNode(GameObject* object, int count){
     objectContainer->addChild(object);
 
     if(object->m_objectID == 1049){
-        if(CCSprite* spr = getChildOfType<CCSprite>(object, 0)) {
+        if(CCSprite* spr = object->getChildByType<CCSprite>(0)) {
             spr->setColor({255, 63, 63});
         }
     }

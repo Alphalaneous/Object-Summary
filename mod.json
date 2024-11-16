@@ -1,5 +1,5 @@
 {
-	"geode": "4.0.0-alpha.1",
+	"geode": "4.0.0-beta.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,10 +8,10 @@
 	},
 	"id": "alphalaneous.object_summary",
 	"name": "Object Summary",
-	"version": "v1.1.4-alpha.1",
+	"version": "v1.1.4",
 	"developer": "Alphalaneous",
 	"links": {
-        "homepage": "https://twitter.com/alphalaneous",
+        "homepage": "https://linktr.ee/Alphalaneous",
         "source": "https://github.com/Alphalaneous/Object-Summary",
         "community": "https://discord.gg/Txn2CA5dHF"
     },

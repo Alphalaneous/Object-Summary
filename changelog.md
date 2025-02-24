@@ -1,3 +1,6 @@
+# 1.1.5
+- Add tags
+
 # 1.1.3
 - Fix a bug where it shows (and crashes) when in a start position
 

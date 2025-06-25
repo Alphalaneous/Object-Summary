@@ -1,4 +1,5 @@
 #include "ObjectItem.hpp"
+#include "ObjectArrays.hpp"
 #include <Geode/utils/ColorProvider.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 

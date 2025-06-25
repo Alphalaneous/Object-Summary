@@ -16,7 +16,7 @@ bool ObjectItem::init(GameObject* go0, GameObject* go1, int count0, int count1, 
     setLayout(layout);
 
     addChild(createNode(go0, count0, id0));
-    if(count1 > 0) addChild(createNode(go1, count1, id1));
+    if(count1 > 0) addChild(createNode(go1, count1, id1)); //change condition from "if(go1)" since go1 being nullptr doesnt necessarily mean count1 is zero anymore (playlayer quirks)
 
     updateLayout();
 

@@ -61,6 +61,6 @@ class $modify(MyPauseLayer, PauseLayer) {
 	}
 
 	void showObjectSummary(CCObject* sender) {
-		if(auto pl = PlayLayer::get()) ObjectPopup::create(pl)->show();
+		if(auto pl = PlayLayer::get()) ObjectPopup::create(static_cast<GJBaseGameLayer*>(pl))->show();
 	}
 };

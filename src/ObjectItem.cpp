@@ -47,8 +47,10 @@ CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
         object = GameObject::createWithKey(1); //create a filler GameObject* for UI-related purposes
     }
     //force scale for certain objects if PlayLayer is present to avoid weird quirks
+    //it's possible that other object IDs also face similar quirks
+    //but teleport portals and jump orbs were the most glaring ones right off the bat
     else if (PlayLayer::get() && std::ranges::binary_search(teleportObjects.begin(), teleportObjects.end(), id)){
-        scale = .007; //why was this the magic value? idk blame rob
+        scale = .0001; //why was this the magic value? idk blame rob
     }
     else if (PlayLayer::get() && std::ranges::binary_search(orbObjects.begin(), orbObjects.end(), id)) {
         scale = .3;

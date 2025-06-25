@@ -43,7 +43,7 @@ CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
 
     if(!object){
         wasNull = true;
-        object = GameObject::createWithKey(1);
+        object = GameObject::createWithKey(1); //create a filler GameObject* for UI-related purposes
     }
     else if(object->getContentSize().height > contentSize.height && object->getContentSize().height > object->getContentSize().width){
         scale = contentSize.height/object->getContentSize().height;
@@ -77,6 +77,7 @@ CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
     }
     else if(wasNull){
         CCLabelBMFont* actualObjectIDLabel = CCLabelBMFont::create(fmt::format("({})", id).c_str(), "chatFont.fnt");
+        //the filler game object created from line 46 is pretty much a frame within a frame to add info about the object ID that's missing
         object->addChildAtPosition(actualObjectIDLabel, Anchor::Center);
         object->setCascadeColorEnabled(false);
         object->setOpacity(0);

@@ -91,22 +91,23 @@ bool ObjectList::init(std::map<int, int> objects, SortOptions sortOptions, CCSiz
     for (auto const & [k, v] : pairs){
 
         //objectsStr += fmt::format("{}, ", k);
+        if(k < 1) continue; //skip object IDs less than 1
         if(k == 749) continue; //orange part of teleport
 
-        if(sortOptions.isPortals && !(std::binary_search(portalObjects.begin(), portalObjects.end(), k))) continue;
-        if(sortOptions.isPadsOrbs && !(std::binary_search(padOrbObjects.begin(), padOrbObjects.end(), k))) continue;
-        if(sortOptions.isTriggers && !(std::binary_search(triggerObjects.begin(), triggerObjects.end(), k))) continue;
-        if(sortOptions.isSolids && !(std::binary_search(solidObjects.begin(), solidObjects.end(), k))) continue;
-        if(sortOptions.isHazards && !(std::binary_search(hazardObjects.begin(), hazardObjects.end(), k))) continue;
+        if(sortOptions.isPortals && !std::ranges::binary_search(portalObjects.begin(), portalObjects.end(), k)) continue;
+        if(sortOptions.isPadsOrbs && !std::ranges::binary_search(padOrbObjects.begin(), padOrbObjects.end(), k)) continue;
+        if(sortOptions.isTriggers && !std::ranges::binary_search(triggerObjects.begin(), triggerObjects.end(), k)) continue;
+        if(sortOptions.isSolids && !std::ranges::binary_search(solidObjects.begin(), solidObjects.end(), k)) continue;
+        if(sortOptions.isHazards && !std::ranges::binary_search(hazardObjects.begin(), hazardObjects.end(), k)) continue;
 
         if((iter + 1) % 2 == 0){
             GameObject* gm0 = GameObject::createWithKey(lastObjectID);
             GameObject* gm1 = GameObject::createWithKey(k);
-            m_list->m_contentLayer->addChild(ObjectItem::create(gm0, gm1, lastObjectCount, v, itemSize));
+            m_list->m_contentLayer->addChild(ObjectItem::create(gm0, gm1, lastObjectCount, v, lastObjectID, k, itemSize));
         }
         else if(iter == objects.size() - 1) {
             GameObject* gm0 = GameObject::createWithKey(k);
-            m_list->m_contentLayer->addChild(ObjectItem::create(gm0, nullptr, v, 0, itemSize));
+            m_list->m_contentLayer->addChild(ObjectItem::create(gm0, nullptr, v, 0, k, 0, itemSize));
         }
         lastObjectID = k;
         lastObjectCount = v;

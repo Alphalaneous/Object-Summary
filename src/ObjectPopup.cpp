@@ -209,6 +209,12 @@ void ObjectPopup::generateList(SortOptions sortOptions){
     std::map<int, int> objectCounts;
 
     for(GameObject* obj : CCArrayExt<GameObject*>(m_baseGameLayer->m_objects)){
+        if(obj->m_objectID < 1){
+            continue;
+        }
+        if(auto pl = PlayLayer::get(); pl && obj == pl->m_anticheatSpike){
+            continue;
+        }
         if(!sortOptions.showHidden && obj->m_isHide){
             continue;
         }

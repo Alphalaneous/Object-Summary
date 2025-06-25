@@ -77,7 +77,7 @@ CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
     }
     else if(wasNull){
         CCLabelBMFont* actualObjectIDLabel = CCLabelBMFont::create(fmt::format("({})", id).c_str(), "chatFont.fnt");
-        //the filler game object created from line 46 is pretty much a frame within a frame to add info about the object ID that's missing
+        //the filler game object created from line 46 is pretty much a frame within a frame to add the label describing the object ID that's missing
         object->addChildAtPosition(actualObjectIDLabel, Anchor::Center);
         object->setCascadeColorEnabled(false);
         object->setOpacity(0);

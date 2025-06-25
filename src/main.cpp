@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/LevelSettingsLayer.hpp>
+#include <Geode/modify/PauseLayer.hpp>
 #include "ObjectPopup.hpp"
 
 using namespace geode::prelude;
@@ -15,7 +16,7 @@ class $modify(MyLevelSettingsLayer, LevelSettingsLayer) {
 		newMenu->ignoreAnchorPointForPosition(false);
 		m_mainLayer->addChild(newMenu);
 
-		CCLabelBMFont* tempLabel = CCLabelBMFont::create("S", "bigFont.fnt");
+		// CCLabelBMFont* tempLabel = CCLabelBMFont::create("S", "bigFont.fnt");
 
         auto spr = CircleButtonSprite::createWithSpriteFrameName(
             "square_01_001.png", 0.75f,
@@ -36,6 +37,30 @@ class $modify(MyLevelSettingsLayer, LevelSettingsLayer) {
 	}
 
 	void showObjectSummary(CCObject* sender) {
-		ObjectPopup::create(m_editorLayer)->show();
+		ObjectPopup::create(static_cast<GJBaseGameLayer*>(m_editorLayer))->show();
+	}
+};
+
+class $modify(MyPauseLayer, PauseLayer) {
+	void customSetup() {
+		PauseLayer::customSetup();
+		auto leftSideMenu = this->getChildByID("left-button-menu");
+		if(!leftSideMenu) return;
+
+		auto pl = PlayLayer::get();
+		if(!pl) return;
+
+        auto spr = CircleButtonSprite::createWithSpriteFrameName(
+            "square_01_001.png", 0.75f,
+            CircleBaseColor::Green
+        );
+
+		CCMenuItemSpriteExtra* summaryButton = CCMenuItemSpriteExtra::create(spr, this, menu_selector(MyPauseLayer::showObjectSummary));
+		leftSideMenu->addChild(summaryButton);
+		leftSideMenu->updateLayout();
+	}
+
+	void showObjectSummary(CCObject* sender) {
+		if(auto pl = PlayLayer::get()) ObjectPopup::create(pl)->show();
 	}
 };

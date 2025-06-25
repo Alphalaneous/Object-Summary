@@ -46,6 +46,13 @@ CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
         wasNull = true;
         object = GameObject::createWithKey(1); //create a filler GameObject* for UI-related purposes
     }
+    //force scale for certain objects if PlayLayer is present to avoid weird quirks
+    else if (PlayLayer::get() && std::ranges::binary_search(teleportObjects.begin(), teleportObjects.end(), id)){
+        scale = .007; //why was this the magic value? idk blame rob
+    }
+    else if (PlayLayer::get() && std::ranges::binary_search(orbObjects.begin(), orbObjects.end(), id)) {
+        scale = .3;
+    }
     else if(object->getContentSize().height > contentSize.height && object->getContentSize().height > object->getContentSize().width){
         scale = contentSize.height/object->getContentSize().height;
     }

@@ -1,9 +1,9 @@
 #include "ObjectPopup.hpp"
 #include "ObjectList.hpp"
 
-bool ObjectPopup::init(LevelEditorLayer* levelEditorLayer, float width, float height){
+bool ObjectPopup::init(GJBaseGameLayer* baseGameLayer, float width, float height){
   
-    m_editorLayer = levelEditorLayer;
+    m_baseGameLayer = baseGameLayer;
 
     if (!Popup<>::initAnchored(width, height, "GJ_square01.png")) return false;
 
@@ -208,7 +208,13 @@ void ObjectPopup::generateList(SortOptions sortOptions){
 
     std::map<int, int> objectCounts;
 
-    for(GameObject* obj : CCArrayExt<GameObject*>(m_editorLayer->m_objects)){
+    for(GameObject* obj : CCArrayExt<GameObject*>(m_baseGameLayer->m_objects)){
+        if(obj->m_objectID < 1){
+            continue;
+        }
+        if(auto pl = PlayLayer::get(); pl && obj == pl->m_anticheatSpike){
+            continue;
+        }
         if(!sortOptions.showHidden && obj->m_isHide){
             continue;
         }
@@ -220,7 +226,7 @@ void ObjectPopup::generateList(SortOptions sortOptions){
 
     std::map<int, bool> objectTotals;
 
-    for(GameObject* obj : CCArrayExt<GameObject*>(m_editorLayer->m_objects)){
+    for(GameObject* obj : CCArrayExt<GameObject*>(m_baseGameLayer->m_objects)){
         objectTotals[obj->m_objectID] = true;
     }
 
@@ -264,10 +270,10 @@ void ObjectPopup::onClose(cocos2d::CCObject*){
     this->removeFromParentAndCleanup(true);
 }
 
-ObjectPopup* ObjectPopup::create(LevelEditorLayer* levelEditorLayer) {
+ObjectPopup* ObjectPopup::create(GJBaseGameLayer* baseGameLayer) {
 
     auto ret = new ObjectPopup();
-    if (ret->init(levelEditorLayer, 240.f, 220.f)) {
+    if (ret->init(baseGameLayer, 240.f, 220.f)) {
         ret->autorelease();
         return ret;
     }

@@ -1,8 +1,9 @@
 #include "ObjectItem.hpp"
+#include "ObjectArrays.hpp"
 #include <Geode/utils/ColorProvider.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 
-bool ObjectItem::init(GameObject* go0, GameObject* go1, int count0, int count1, CCSize const& size) {
+bool ObjectItem::init(GameObject* go0, GameObject* go1, int count0, int count1, int id0, int id1, CCSize const& size) {
     if (!CCNode::init()) {
         return false;
     }
@@ -15,15 +16,15 @@ bool ObjectItem::init(GameObject* go0, GameObject* go1, int count0, int count1, 
     layout->setGap(0);
     setLayout(layout);
 
-    addChild(createNode(go0, count0));
-    if(go1) addChild(createNode(go1, count1));
+    addChild(createNode(go0, count0, id0));
+    if(count1 > 0) addChild(createNode(go1, count1, id1)); //change condition from "if(go1)" since go1 being nullptr doesnt necessarily mean count1 is zero anymore (playlayer quirks)
 
     updateLayout();
 
     return true;
 }
 
-CCNode* ObjectItem::createNode(GameObject* object, int count){
+CCNode* ObjectItem::createNode(GameObject* object, int count, int id){
 
     CCSize contentSize = getContentSize();
     float realWidth = contentSize.width/2;
@@ -39,15 +40,29 @@ CCNode* ObjectItem::createNode(GameObject* object, int count){
     objectContainer->setAnchorPoint({1, 0.5});
 
     float scale = 1;
+    bool wasNull = false;
 
-    if(object->getContentSize().height > contentSize.height && object->getContentSize().height > object->getContentSize().width){
+    if(!object){
+        wasNull = true;
+        object = GameObject::createWithKey(1); //create a filler GameObject* for UI-related purposes
+    }
+    //force scale for certain objects if PlayLayer is present to avoid weird quirks
+    //it's possible that other object IDs also face similar quirks
+    //but teleport portals and jump orbs were the most glaring ones right off the bat
+    else if (PlayLayer::get() && std::ranges::binary_search(teleportObjects.begin(), teleportObjects.end(), id)){
+        scale = .0001; //why was this the magic value? idk blame rob
+    }
+    else if (PlayLayer::get() && std::ranges::binary_search(orbObjects.begin(), orbObjects.end(), id)) {
+        scale = .3;
+    }
+    else if(object->getContentSize().height > contentSize.height && object->getContentSize().height > object->getContentSize().width){
         scale = contentSize.height/object->getContentSize().height;
     }
     else if (object->getContentSize().width > contentSize.height){
         scale = contentSize.height/object->getContentSize().width;
     }
 
-    std::string frame = ObjectToolbox::sharedState()->intKeyToFrame(object->m_objectID);
+    std::string frame = !wasNull ? ObjectToolbox::sharedState()->intKeyToFrame(object->m_objectID) : "emptyFrame.png";
 
     if(frame == "emptyFrame.png"){
         scale = 0.75;
@@ -70,6 +85,13 @@ CCNode* ObjectItem::createNode(GameObject* object, int count){
             spr->setColor({255, 63, 63});
         }
     }
+    else if(wasNull){
+        CCLabelBMFont* actualObjectIDLabel = CCLabelBMFont::create(fmt::format("({})", id).c_str(), "chatFont.fnt");
+        //the filler game object created from line 46 is pretty much a frame within a frame to add the label describing the object ID that's missing
+        object->addChildAtPosition(actualObjectIDLabel, Anchor::Center);
+        object->setCascadeColorEnabled(false);
+        object->setOpacity(0);
+    }
 
     object->setPosition({contentSize.height/2, contentSize.height/2});
 
@@ -83,9 +105,9 @@ CCNode* ObjectItem::createNode(GameObject* object, int count){
 }
 
 
-ObjectItem* ObjectItem::create(GameObject* go0, GameObject* go1, int count0, int count1, CCSize const& size) {
+ObjectItem* ObjectItem::create(GameObject* go0, GameObject* go1, int count0, int count1, int id0, int id1, CCSize const& size) {
     auto ret = new ObjectItem();
-    if (!ret || !ret->init(go0, go1, count0, count1, size)) {
+    if (!ret || !ret->init(go0, go1, count0, count1, id0, id1, size)) {
         CC_SAFE_DELETE(ret);
         return nullptr;
     }

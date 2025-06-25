@@ -9,7 +9,7 @@ class ObjectPopup : public geode::Popup<> {
 
 protected:
     bool setup() override;
-    bool init(LevelEditorLayer* levelEditorLayer, float width, float height);
+    bool init(GJBaseGameLayer* baseGameLayer, float width, float height);
 private:
 
     CCMenuItemToggler* m_solidsToggle;
@@ -20,7 +20,7 @@ private:
     CCMenuItemToggler* m_triggersToggle;
 
     SortOptions m_sortOptions;
-    LevelEditorLayer* m_editorLayer;
+    GJBaseGameLayer* m_baseGameLayer;
 
     void generateList(SortOptions sortOptions);
     void onSort(CCObject* sender);
@@ -35,6 +35,6 @@ private:
     void disableAll();
     CCMenuItemToggler* createToggler(std::string spr, cocos2d::SEL_MenuHandler selector, bool alt, float scale);
 public:
-    static ObjectPopup* create(LevelEditorLayer* levelEditorLayer);
+    static ObjectPopup* create(GJBaseGameLayer* baseGameLayer);
     void onClose(cocos2d::CCObject*) override;
 };

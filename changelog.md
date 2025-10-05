@@ -1,3 +1,6 @@
+# 1.1.7
+- Fixed a bug where the old color triggers don't show up in the triggers tab
+
 # 1.1.6
 - iOS support
 
